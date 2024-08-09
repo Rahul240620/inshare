@@ -34,7 +34,7 @@ router.post('/', (req, res)=>
     upload(req,res, async(err)=>{
     //validate request
         if(err){
-            res.status(500).send({error:e.message})
+            res.status(500).send({error:err.message})
         }
 
         
