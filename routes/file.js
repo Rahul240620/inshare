@@ -31,14 +31,9 @@ router.post('/', (req, res)=>
 
     // //store file
 
-    upload(req,res, async(e)=>{
+    upload(req,res, async(err)=>{
     //validate request
-    if(!req.file)
-        {
-            return res.json({error:'all feilds are required.'});
-        }
-
-        if(e){
+        if(err){
             res.status(500).send({error:e.message})
         }
 
