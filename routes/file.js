@@ -31,10 +31,10 @@ router.post('/', (req, res)=>
 
     // //store file
 
-    upload(req,res, async(err)=>{
+    upload(req,res, async(e)=>{
     //validate request
-        if(err){
-            res.status(500).send({error:err.message})
+        if(e){
+            res.status(500).send({error:e.message})
         }
 
         
