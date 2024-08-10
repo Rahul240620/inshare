@@ -10,15 +10,14 @@ let storage= multer.diskStorage({
         const uniquename=  `${Date.now()}-${Math.round(Math.random()*1E9)}${path.extname(file.originalname)}`;
    
         cb (null,uniquename)
-    }
+    },
     
-})
+});
 
 let upload=multer({
     storage:storage,
-    limit:{fileSize:1000000*1000000}
-})
-.single('myfile');
+    limit:{fileSize:1000000*100},
+}).single('myfile');
 
 router.post('/', (req, res)=>
 {
@@ -34,7 +33,7 @@ router.post('/', (req, res)=>
     upload(req,res, async(e)=>{
     //validate request
         if(e){
-            res.status(500).send({error:e.message})
+           return res.status(500).send({error:e.message})
         }
 
         
@@ -53,7 +52,7 @@ return res.json({file:`${process.env.App_BASE_URL}/files/${response.uuid}`});
 });
   
 
-})
+});
 
 // send email
 
@@ -84,19 +83,20 @@ router.post('/send', async (req, res)=>{
         text:`${emailFrom} shared a file with you`,
         html:require('../services/emailTemplate')({
             emailFrom:emailFrom,
-            downloadLink:`${process.env.APP_BASE_URL}/files/${file.uuid}`,
+            downloadLink:`${process.env.APP_BASE_URL}/files/${file.uuid}?source=email`,
             size:parseInt(file.size/1000)+'KB',
             expires:'24 Hours'
         })
-     })
-     .then(()=>{
+     }).then(()=>{
         return res.json({success:true});
-         })
-     .catch((err)=>{
+         }).catch((err) =>{
         return res.status(500).json({error: 'Error in email sending.'});
-          })
-    
-    })
+          }).catch((err) =>{
+            return res.status(500).send({ error: 'Something went wrong.'});
+          });
+          
+        
+    });
 
 
 module.exports =router;
