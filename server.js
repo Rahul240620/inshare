@@ -2,8 +2,12 @@ const express= require('express')
 const app=express();
 const path=require('path');
 const connectDB=require('./config/db');
-
+const cors = require('cors');
 connectDB();
+// cors setup
+const corsOptions = {
+origin: process.env.ALLOWED_CLIENTS.split(',')}
+app.use(cors(corsOptions))
 // for css 
 app.use(express.static ('public'));
 //json data 
