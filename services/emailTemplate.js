@@ -1,6 +1,5 @@
-
-module.exports = ({emailFrom, downloadLink, size, expires}) => {
-    return `
+module.exports = ({ emailFrom, downloadLink, size, expires }) => {
+  return `
         <!doctype html>
             <html>
             <head>
@@ -170,4 +169,4 @@ module.exports = ({emailFrom, downloadLink, size, expires}) => {
             </body>
         </html>
     `;
-}
+};
